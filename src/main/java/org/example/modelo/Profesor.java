@@ -51,10 +51,11 @@ public class Profesor  extends PersonaUt{
 
     @Override
     public String toString() {
-        return "Numero de Empleado"+getNumEmpleado()+
-                super.toString()+"\n"+
-                "Nombre Empleado"+getNombre()+
-                "Puesto: "+getPuesto()+
-                "Sueldo"+getSueldo();
+        return "Numero de Empleado: " + getNumEmpleado() + "\n" +
+                super.toString() + "\n" +
+                "Nombre Empleado: " + getNombreEmpleado() + "\n" +
+                "Puesto: " + getPuesto() + "\n" +
+                "Sueldo: " + getSueldo() + "\n" +
+                "=====================================";
     }
 }
