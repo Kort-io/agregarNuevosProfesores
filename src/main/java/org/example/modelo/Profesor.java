@@ -1,19 +1,17 @@
 package org.example.modelo;
 
-public class Profesor  extends PersonaUt{
+public class Profesor extends PersonaUt {
     private int numEmpleado;
-    private String nombreEmpleado;
     private String puesto;
     private double sueldo;
 
-    public Profesor(){}
+    public Profesor() {}
 
-    public Profesor(String nombre, String curp, int numEmpleado, String nombreEmpleado, String puesto, double sueldo) {
+    public Profesor(String nombre, String curp, int numEmpleado, String puesto, double sueldo) {
         super(nombre, curp);
-       setNumEmpleado(numEmpleado);
-       setNombreEmpleado(nombreEmpleado);
-       setPuesto(puesto);
-       setSueldo(sueldo);
+        setNumEmpleado(numEmpleado);
+        setPuesto(puesto);
+        setSueldo(sueldo);
     }
 
     public int getNumEmpleado() {
@@ -22,14 +20,6 @@ public class Profesor  extends PersonaUt{
 
     public void setNumEmpleado(int numEmpleado) {
         this.numEmpleado = numEmpleado;
-    }
-
-    public String getNombreEmpleado() {
-        return nombreEmpleado;
-    }
-
-    public void setNombreEmpleado(String nombreEmpleado) {
-        this.nombreEmpleado = nombreEmpleado;
     }
 
     public String getPuesto() {
@@ -48,12 +38,10 @@ public class Profesor  extends PersonaUt{
         this.sueldo = sueldo;
     }
 
-
     @Override
     public String toString() {
-        return "Numero de Empleado: " + getNumEmpleado() + "\n" +
+        return "Número de Empleado: " + getNumEmpleado() + "\n" +
                 super.toString() + "\n" +
-                "Nombre Empleado: " + getNombreEmpleado() + "\n" +
                 "Puesto: " + getPuesto() + "\n" +
                 "Sueldo: " + getSueldo() + "\n" +
                 "=====================================";

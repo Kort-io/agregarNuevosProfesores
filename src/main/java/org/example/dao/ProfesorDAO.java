@@ -13,8 +13,7 @@ public class ProfesorDAO {
 
     public boolean agregarProfesor(Profesor profesor){
         boolean agregado = false;
-
-        String sql = "INSERT INTO profesores VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO profesores VALUES (?,?,?,?,?)";
 
         try(Connection conexion = Conexion.conectar();
             PreparedStatement stm = conexion.prepareStatement(sql)){
@@ -22,12 +21,10 @@ public class ProfesorDAO {
             stm.setInt(1, profesor.getNumEmpleado());
             stm.setString(2, profesor.getNombre());
             stm.setString(3, profesor.getCurp());
-            stm.setString(4, profesor.getNombreEmpleado());
-            stm.setString(5, profesor.getPuesto());
-            stm.setDouble(6, profesor.getSueldo());
+            stm.setString(4, profesor.getPuesto());
+            stm.setDouble(5, profesor.getSueldo());
 
             stm.executeUpdate();
-
             System.out.println("Profesor registrado correctamente");
             agregado = true;
 
@@ -39,27 +36,20 @@ public class ProfesorDAO {
     }
 
     public ArrayList<Profesor> extraerProfesores(){
-
         ArrayList<Profesor> profesores = new ArrayList<>();
-
         String sql = "SELECT * FROM profesores";
 
         try(Connection conexion = Conexion.conectar();
             PreparedStatement stm = conexion.prepareStatement(sql)){
 
             ResultSet rs = stm.executeQuery();
-
             while(rs.next()){
-
                 Profesor profesor = new Profesor();
-
                 profesor.setNumEmpleado(rs.getInt("numEmpleado"));
                 profesor.setNombre(rs.getString("nombre"));
                 profesor.setCurp(rs.getString("curp"));
-                profesor.setNombreEmpleado(rs.getString("nombreEmpleado"));
                 profesor.setPuesto(rs.getString("puesto"));
                 profesor.setSueldo(rs.getDouble("sueldo"));
-
                 profesores.add(profesor);
             }
 
@@ -71,28 +61,24 @@ public class ProfesorDAO {
     }
 
     public boolean actualizarProfesor(Profesor profesor){
-
         boolean actualizado = false;
-
-        String sql = "UPDATE profesores SET nombre = ?, curp = ?, nombreEmpleado = ?, puesto = ?, sueldo = ? WHERE numEmpleado = ?";
+        String sql = "UPDATE profesores SET nombre = ?, curp = ?, puesto = ?, sueldo = ? WHERE numEmpleado = ?";
 
         try(Connection conexion = Conexion.conectar();
             PreparedStatement stm = conexion.prepareStatement(sql)){
 
             stm.setString(1, profesor.getNombre());
             stm.setString(2, profesor.getCurp());
-            stm.setString(3, profesor.getNombreEmpleado());
-            stm.setString(4, profesor.getPuesto());
-            stm.setDouble(5, profesor.getSueldo());
-            stm.setInt(6, profesor.getNumEmpleado());
+            stm.setString(3, profesor.getPuesto());
+            stm.setDouble(4, profesor.getSueldo());
+            stm.setInt(5, profesor.getNumEmpleado());
 
             int registros = stm.executeUpdate();
-
             if(registros > 0){
                 actualizado = true;
                 System.out.println("Profesor actualizado correctamente");
             }else{
-                System.out.println("No existe ese numero de empleado");
+                System.out.println("No existe ese número de empleado");
             }
 
         }catch(SQLException err){
@@ -100,5 +86,51 @@ public class ProfesorDAO {
         }
 
         return actualizado;
+    }
+
+    public Profesor buscarProfesor(int numEmpleado) {
+        Profesor profesor = null;
+        String sql = "SELECT * FROM profesores WHERE numEmpleado = ?";
+
+        try(Connection conexion = Conexion.conectar();
+            PreparedStatement stm = conexion.prepareStatement(sql)){
+
+            stm.setInt(1, numEmpleado);
+            try(ResultSet rs = stm.executeQuery()){
+                if(rs.next()){
+                    profesor = new Profesor();
+                    profesor.setNumEmpleado(rs.getInt("numEmpleado"));
+                    profesor.setNombre(rs.getString("nombre"));
+                    profesor.setCurp(rs.getString("curp"));
+                    profesor.setPuesto(rs.getString("puesto"));
+                    profesor.setSueldo(rs.getDouble("sueldo"));
+                }
+            }
+
+        }catch(SQLException err){
+            System.out.println("Error al buscar profesor " + err.getMessage());
+        }
+
+        return profesor;
+    }
+
+    public boolean eliminarProfesor(int numEmpleado){
+        boolean eliminado = false;
+        String sql = "DELETE FROM profesores WHERE numEmpleado = ?";
+
+        try(Connection conexion = Conexion.conectar();
+            PreparedStatement stm = conexion.prepareStatement(sql)){
+
+            stm.setInt(1, numEmpleado);
+            int registros = stm.executeUpdate();
+            if(registros > 0){
+                eliminado = true;
+            }
+
+        }catch(SQLException err){
+            System.out.println("Error al eliminar profesor " + err.getMessage());
+        }
+
+        return eliminado;
     }
 }

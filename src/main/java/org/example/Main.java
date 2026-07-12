@@ -7,7 +7,7 @@ import java.io.IOException;
 
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    static void main() throws IOException {
 
         Menu.menu();
     }

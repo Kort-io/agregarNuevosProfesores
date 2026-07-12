@@ -76,6 +76,43 @@ public class AlumnoDAO {
         return actualizado;
     }
 
+    public Alumno buscarAlumno(int numExpediente) {
+        Alumno alumno = null;
+        String sql = "SELECT * FROM alumnos WHERE numExpediente = ?";
+        try(Connection conexion = Conexion.conectar();
+            PreparedStatement stm = conexion.prepareStatement(sql)){
+            stm.setInt(1, numExpediente);
+            try(ResultSet rs = stm.executeQuery()){
+                if(rs.next()){
+                    alumno = new Alumno();
+                    alumno.setNumExpediente(rs.getInt("numExpediente"));
+                    alumno.setNombre(rs.getString("nombre"));
+                    alumno.setCurp(rs.getString("curp"));
+                    alumno.setGrupo(rs.getString("grupo"));
+                    alumno.setPromedio(rs.getDouble("promedio"));
+                }
+            }
+        }catch(SQLException err){
+            System.out.println("Error al buscar alumno " + err.getMessage());
+        }
+        return alumno;
+    }
+
+    public boolean eliminarAlumno(int numExpediente){
+        boolean eliminado = false;
+        String sql = "DELETE FROM alumnos WHERE numExpediente = ?";
+        try(Connection conexion = Conexion.conectar();
+            PreparedStatement stm = conexion.prepareStatement(sql)){
+            stm.setInt(1, numExpediente);
+            int registros = stm.executeUpdate();
+            if(registros > 0){
+                eliminado = true;
+            }
+        }catch(SQLException err){
+            System.out.println("Error al eliminar alumno " + err.getMessage());
+        }
+        return eliminado;
+    }
 }
 
 
